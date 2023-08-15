@@ -1763,8 +1763,9 @@
                                             <form action="https://marketifythemes.net/" method="post" class="contactform" id="contact_form">
                                                 <div class="returnmessage"
                                                     data-success="Your message has been received, We will contact you soon.">
+                                                    
                                                 </div>
-                                                <div class="empty_notice" id="response"><span>Veuillez remplir tous les champs</span></div>
+                                                <div class="empty_notice" id="response"><span id="responseText">Veuillez remplir tous les champs</span></div>
                                                 <div class="first w-full float-left">
                                                     <ul>
                                                         <li class="w-full mb-[25px] float-left">
@@ -1841,6 +1842,12 @@
             const subject = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
+            if(recipient == "" || subject == "" || message == ""){
+                document.getElementById('response').removeAttribute('class') = "empty_notice";
+                // document.getElementById('response').innerHTML = '<p>success</P>';
+                return;
+            }
+
             let formData = new FormData();
             formData.append('recipient',recipient);
             formData.append('subject',subject);
@@ -1855,6 +1862,10 @@
 
             xhr.onload = function () {
                 alert('Laaded:'+ xhr.status + xhr.response);
+                if(xhr.status == 200){
+                    alert(xhr.response);
+                    document.getElementById('response').innerText = xhr.response;
+                }
             }
 
             xhr.onerror = function () {
