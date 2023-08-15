@@ -1855,6 +1855,7 @@
 
             let xhr = new XMLHttpRequest();
             console.log(xhr);
+            console.log(formData);
 
             xhr.open("POST",'send-email.php')
             xhr.responseType = 'json';
@@ -1864,8 +1865,9 @@
                 alert('Laaded:'+ xhr.status + xhr.response);
                 if(xhr.status == 200){
                     alert(xhr.response);
+                    console.log('response ok')
                     document.getElementById('response').innerText = xhr.response;
-                }
+                } 
             }
 
             xhr.onerror = function () {
