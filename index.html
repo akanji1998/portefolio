@@ -1832,28 +1832,51 @@
 
     </div>
     <script>
+        
+
         document.getElementById('contact_form').addEventListener('submit', function(event) {
             event.preventDefault();
             
             const recipient = document.getElementById('name').value;
             const subject = document.getElementById('email').value;
             const message = document.getElementById('message').value;
+
+            let formData = new FormData();
+            formData.append('recipient',recipient);
+            formData.append('subject',subject);
+            formData.append('message',message);
+
+            let xhr = new XMLHttpRequest();
+            console.log(xhr);
+
+            xhr.open("POST",'send-email.php')
+            xhr.responseType = 'json';
+            xhr.send(formData);
+
+            xhr.onload = function () {
+                alert('Laaded:'+ xhr.status + xhr.response);
+            }
+
+            xhr.onerror = function () {
+                alert('Network Error:');
+                alert('Laaded:'+ xhr.status + xhr.response);
+            }
             
-            fetch('send-email.php', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `recipient=${recipient}&subject=${subject}&message=${message}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                // Afficher la réponse du serveur dans un élément HTML
-                document.getElementById('response').innerText = data.message;
-            });
+            // fetch('send-email.php', {
+            //     method: 'POST',
+            //     headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded'
+            //     },
+            //     body: `recipient=${recipient}&subject=${subject}&message=${message}`
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log(data);
+            //     // Afficher la réponse du serveur dans un élément HTML
+            //     document.getElementById('response').innerText = data.message;
+            // });
         });
-        </script>
+    </script>
 
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="assets/js/jquery.js"></script>
